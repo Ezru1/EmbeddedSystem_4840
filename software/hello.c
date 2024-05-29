@@ -164,7 +164,7 @@ int main()
 	position.x2_axis = x % 256;
 
 	if (position.y2_axis == 100){
-    usleep(200);
+    usleep(200000);
     printf("%d\n",position.x1_axis << 8 + position.x2_axis);
   }
 	//printf("%d,%d,%d,%hhu\n", position.x1_axis, position.x2_axis, x, pixel_values[i][j]);
