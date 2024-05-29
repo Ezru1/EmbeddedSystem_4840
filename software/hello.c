@@ -153,9 +153,9 @@ int main()
         if (j == 0) xj = 127;
         else if (j == 127) xj = 0;
         else xj = j;
-        tmp.red = pixel_values[i][xj];
-        tmp.green = pixel_values[i][xj];
-        tmp.blue = pixel_values[i][xj];
+        tmp.red = pixel_values[i][j];
+        tmp.green = pixel_values[i][j];
+        tmp.blue = pixel_values[i][j];
         
         print_background_color();
         x = (position.x1_axis << 8) + position.x2_axis;
