@@ -13,9 +13,9 @@ import time
 # Parameters
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 44100
+RATE = 10000
 CHUNK = 1024
-RECORD_SECONDS = 0.3
+RECORD_SECONDS = 0.5
 
 def rec_aud(aud_q):
     c = 1
@@ -62,14 +62,17 @@ if __name__ == "__main__":
     thread.start()
 
     # Create a 3D plot
+    N = 1024
+    T = 1/800
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    x = np.linspace(0, 1.5, 50)
-    y = np.linspace(0, 512, 512)
+    x = np.linspace(0, 5, 50)
+    y = np.linspace(0, N//2, N//2)
     lx,ly = len(x),len(y)
     x, y = np.meshgrid(x, y)
-    z = np.zeros((512,50))
+    z = np.zeros((N//2,50))
     surf = ax.plot_surface(x, y, z, cmap='viridis')
+    
     # Add labels and title
     # ax.set_xlabel('X-axis')
     # ax.set_ylabel('Y-axis')
@@ -82,12 +85,9 @@ if __name__ == "__main__":
     while aud_q:
         aud_a = aud_q.get()
         if len(ydata) == 50:ydata.popleft()
-        N = 1024
-        T = 1/800
         xf = fftfreq(N, T)
         yf = fft(aud_a)
         ydata.append(2.0/N * np.abs(yf[:N//2]))
-
 
 
         # Generate example data
@@ -99,6 +99,7 @@ if __name__ == "__main__":
         print(newz)
         # Plot the surface
         surf = ax.plot_surface(x, y, newz, cmap='viridis')
+        ax.set_zlim3d(0,9000)
         # Show the plot
         fig.canvas.draw()
         plt.pause(0.1)
