@@ -165,7 +165,7 @@ int main()
         set_background_color(&tmp);
         set_pixel_axis(&position);
         // if (position.y2_axis == 100){
-          usleep(200);
+          usleep(2000);
           // printf("%d\n",x);
         // }
     }
