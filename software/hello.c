@@ -28,7 +28,7 @@ void print_pixel_axis() {
       perror("ioctl(VGA_PIXEL_READ_POSITION) failed");
       return;
   }
- // printf("position: %02d %02d %2d\n",vla.position.x1_axis, vla.position.x2_axis,vla.position.y2_axis);
+  printf("position: %02d %02d %2d\n",vla.position.x1_axis, vla.position.x2_axis,vla.position.y2_axis);
 }
 
 /* Set the pixel axis */
@@ -163,8 +163,10 @@ int main()
     	position.x1_axis = x >> 8;
 	position.x2_axis = x % 256;
 
-	print_pixel_axis();
-	//usleep(200);
+	if (position.y1_axis == 100){
+    usleep(200);
+    printf("%d\n",position.x1_axis << 8 + position.x2_axis);
+  }
 	//printf("%d,%d,%d,%hhu\n", position.x1_axis, position.x2_axis, x, pixel_values[i][j]);
     }
     y = (position.y1_axis << 8) + position.y2_axis;
