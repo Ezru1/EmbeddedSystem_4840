@@ -164,10 +164,10 @@ int main()
         position.x2_axis = x % 256;
         set_background_color(&tmp);
         set_pixel_axis(&position);
-        if (position.y2_axis == 100){
+        // if (position.y2_axis == 100){
           usleep(200);
-          printf("%d\n",x);
-        }
+          // printf("%d\n",x);
+        // }
     }
     y = (position.y1_axis << 8) + position.y2_axis;
     y = y + 1;
