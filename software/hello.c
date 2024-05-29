@@ -149,25 +149,24 @@ int main()
   for (int i = 0 ; i < 480 ; i++) {
     for (int j = 0; j < 640; j++) {
         vga_pixel_color_t tmp;
-	tmp.red = pixel_values[i][j];
-	tmp.green = pixel_values[i][j];
-	tmp.blue = pixel_values[i][j];
-	//tmp.red = 0xff;
-	//tmp.green = 0xff;
-	//tmp.blue = 0xff;
-	set_background_color(&tmp);
-	set_pixel_axis(&position);
-  print_background_color();
-	x = (position.x1_axis << 8) + position.x2_axis;
-	x = x + 1;
-  position.x1_axis = x >> 8;
-	position.x2_axis = x % 256;
-
-	if (position.y2_axis == 100){
-    usleep(200000);
-    printf("%d\n",x);
-  }
-	//printf("%d,%d,%d,%hhu\n", position.x1_axis, position.x2_axis, x, pixel_values[i][j]);
+        int xj;
+        if (j == 0) xj = 127;
+        else if (j == 127) xj = 0;
+        else xj = j;
+        tmp.red = pixel_values[i][xj];
+        tmp.green = pixel_values[i][xj];
+        tmp.blue = pixel_values[i][xj];
+        set_background_color(&tmp);
+        set_pixel_axis(&position);
+        print_background_color();
+        x = (position.x1_axis << 8) + position.x2_axis;
+        x = x + 1;
+        position.x1_axis = x >> 8;
+        position.x2_axis = x % 256;
+        if (position.y2_axis == 100){
+          usleep(200000);
+          printf("%d\n",x);
+        }
     }
     y = (position.y1_axis << 8) + position.y2_axis;
     y = y + 1;
