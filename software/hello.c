@@ -156,13 +156,14 @@ int main()
         tmp.red = pixel_values[i][xj];
         tmp.green = pixel_values[i][xj];
         tmp.blue = pixel_values[i][xj];
-        set_background_color(&tmp);
-        set_pixel_axis(&position);
+        
         print_background_color();
         x = (position.x1_axis << 8) + position.x2_axis;
         x = x + 1;
         position.x1_axis = x >> 8;
         position.x2_axis = x % 256;
+        set_background_color(&tmp);
+        set_pixel_axis(&position);
         if (position.y2_axis == 100){
           usleep(200);
           printf("%d\n",x);
