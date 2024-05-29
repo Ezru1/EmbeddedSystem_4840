@@ -163,7 +163,7 @@ int main()
     	position.x1_axis = x >> 8;
 	position.x2_axis = x % 256;
 
-	if (position.y1_axis == 100){
+	if (position.y2_axis == 100){
     usleep(200);
     printf("%d\n",position.x1_axis << 8 + position.x2_axis);
   }
