@@ -22,7 +22,7 @@ module vga_pixel(input logic        clk,
    logic [10:0]    h, v;
    logic [7:0]     h1, h2, v1, v2;
    logic [7:0] 	   background_r, background_g, background_b;
-   logic 	   read_ena = 1, write_ena = 1;
+   logic 	   read_ena = 0, write_ena = 1;
    logic [18:0]    address_read, address_write;
    logic [7:0]    data_in, data_out;
    logic [18:0]   temp_add;
@@ -63,6 +63,10 @@ module vga_pixel(input logic        clk,
         v <= (v1<<8) + v2;
         data_in <= #2 background_r;
         address_write <= #2 v * 640 + h;
+        if (hcount > 1)
+            read_ena = 1;
+         else 
+            read_ena = 0;
 	     address_read <= vcount * 640 + hcount[10:1];
         {VGA_R,VGA_G,VGA_B} <= {data_out, data_out, data_out};        
 	if (VGA_BLANK_n) begin
