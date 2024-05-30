@@ -65,7 +65,7 @@ void set_background_color(vga_pixel_color_t *c)
 }
 
 int** image_vga() {
-    FILE *coe_file = fopen("i.coe", "r");
+    FILE *coe_file = fopen("rs.coe", "r");
     if (!coe_file) {
         printf("Error opening image_pixel.coe\n");
         return NULL;
