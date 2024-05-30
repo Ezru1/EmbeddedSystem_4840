@@ -50,7 +50,7 @@ void print_background_color() {
       perror("ioctl(VGA_PIXEL_READ_BACKGROUND) failed");
       return;
   }
-  //printf("color: %02x %02x %02x\n",vla.background.red, vla.background.green, vla.background.blue);
+  printf("color: %02x %02x %02x\n",vla.background.red, vla.background.green, vla.background.blue);
 }
 
 /* Set the background color */
@@ -156,8 +156,7 @@ int main()
         tmp.red = pixel_values[i][j];
         tmp.green = pixel_values[i][j];
         tmp.blue = pixel_values[i][j];
-        
-        print_background_color();
+
         x = (position.x1_axis << 8) + position.x2_axis;
         x = x + 1;
         position.x1_axis = x >> 8;
@@ -165,7 +164,7 @@ int main()
         set_background_color(&tmp);
         set_pixel_axis(&position);
         // if (position.y2_axis == 100){
-          usleep(2000);
+          // usleep(200);
           // printf("%d\n",x);
         // }
     }
