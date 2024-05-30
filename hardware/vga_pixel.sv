@@ -59,8 +59,8 @@ module vga_pixel(input logic        clk,
          3'h6 : v2 <= writedata;
         endcase
       
-        h = (h1<<8) + h2;
-        v = (v1<<8) + v2;
+        h <= (h1<<8) + h2;
+        v <= (v1<<8) + v2;
         data_in <= background_r;
         address_write <= v  + h * 480;
 	address_read <= vcount + hcount[10:1] * 480;
@@ -171,9 +171,9 @@ module memory(
 */
  	always_ff@(posedge clk) begin
         	if (write_ena)
-                	mem[address_write] = data_in;
+                	mem[address_write] <= data_in;
        	 	if (read_ena)
-                	data_out = mem[address_read];
+                	data_out <= mem[address_read];
  	end
 endmodule
 
