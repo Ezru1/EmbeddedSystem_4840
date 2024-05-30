@@ -1,5 +1,5 @@
 Fitter report for soc_system
-Wed May 29 20:22:48 2024
+Thu May 30 13:28:02 2024
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Fitter Summary                                                                ;
 +---------------------------------+---------------------------------------------+
-; Fitter Status                   ; Successful - Wed May 29 20:22:48 2024       ;
+; Fitter Status                   ; Successful - Thu May 30 13:28:01 2024       ;
 ; Quartus Prime Version           ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                   ; soc_system                                  ;
 ; Top-level Entity Name           ; soc_system_top                              ;
@@ -162,9 +162,9 @@ https://fpgasoftware.intel.com/eula.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   5.3%      ;
-;     Processor 3            ;   5.1%      ;
-;     Processor 4            ;   4.9%      ;
+;     Processor 2            ;   5.1%      ;
+;     Processor 3            ;   5.0%      ;
+;     Processor 4            ;   4.8%      ;
 +----------------------------+-------------+
 
 
@@ -4167,7 +4167,7 @@ Info (11178): Promoted 1 clock (1 global)
     Info (11162): soc_system:soc_system0|soc_system_hps_0:hps_0|soc_system_hps_0_fpga_interfaces:fpga_interfaces|h2f_rst_n[0]~CLKENA0 with 3 fanout uses global clock CLKCTRL_G10
 Info (11191): Automatically promoted 1 clock (1 global)
     Info (11162): CLOCK_50~inputCLKENA0 with 974 fanout uses global clock CLKCTRL_G6
-Info (184021): Fitter periphery placement operations ending: elapsed time is 00:00:01
+Info (184021): Fitter periphery placement operations ending: elapsed time is 00:00:00
 Info (332104): Reading SDC File: 'soc_system/synthesis/submodules/altera_reset_controller.sdc'
 Info (332104): Reading SDC File: 'soc_system/synthesis/submodules/hps_sdram_p0.sdc'
 Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
@@ -4503,26 +4503,26 @@ Info (332111): Found 22 clocks
 Info (176233): Starting register packing
 Info (176235): Finished register packing
     Extra Info (176219): No registers were packed into other blocks
-Info (11798): Fitter preparation operations ending: elapsed time is 00:00:31
+Info (11798): Fitter preparation operations ending: elapsed time is 00:00:15
 Info (170189): Fitter placement preparation operations beginning
 Info (14951): The Fitter is using Advanced Physical Optimization.
-Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:09
+Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:04
 Info (170191): Fitter placement operations beginning
 Info (170137): Fitter placement was successful
-Info (170192): Fitter placement operations ending: elapsed time is 00:00:03
+Info (170192): Fitter placement operations ending: elapsed time is 00:00:01
 Info (170193): Fitter routing operations beginning
 Info (170195): Router estimated average interconnect usage is 3% of the available device resources
     Info (170196): Router estimated peak interconnect usage is 10% of the available device resources in the region that extends from location X33_Y23 to location X44_Y34
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
     Info (170200): Optimizations that may affect the design's timing were skipped
-Info (170194): Fitter routing operations ending: elapsed time is 00:00:14
-Info (11888): Total time spent on timing analysis during the Fitter is 8.54 seconds.
+Info (170194): Fitter routing operations ending: elapsed time is 00:00:05
+Info (11888): Total time spent on timing analysis during the Fitter is 2.91 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11801): Fitter post-fit operations ending: elapsed time is 00:00:30
+Info (11801): Fitter post-fit operations ending: elapsed time is 00:00:13
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Warning (169064): Following 1 pins have no output enable or a GND or VCC output enable - later changes to this connectivity may change fitting results
     Info (169065): Pin HPS_SPIM_SS has a permanently enabled output enable File: /tmp/EmbeddedSystem_4840/hardware/soc_system_top.sv Line: 145
@@ -4609,10 +4609,10 @@ Info (169186): Following groups of pins have the same dynamic on-chip terminatio
         Info (169066): Type bi-directional pin HPS_DDR3_DQ[21] uses the SSTL-15 Class I I/O standard File: /tmp/EmbeddedSystem_4840/hardware/soc_system_top.sv Line: 113
 Info (144001): Generated suppressed messages file /tmp/EmbeddedSystem_4840/hardware/output_files/soc_system.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 139 warnings
-    Info: Peak virtual memory: 3040 megabytes
-    Info: Processing ended: Wed May 29 20:22:51 2024
-    Info: Elapsed time: 00:02:17
-    Info: Total CPU time (on all processors): 00:03:53
+    Info: Peak virtual memory: 3022 megabytes
+    Info: Processing ended: Thu May 30 13:28:02 2024
+    Info: Elapsed time: 00:01:00
+    Info: Total CPU time (on all processors): 00:01:29
 
 
 +----------------------------+
