@@ -161,7 +161,7 @@ module memory(
  	output logic [7:0] data_out,
  	input logic read_ena, write_ena);
 
- 	reg [7:0] mem [307199:0];
+ 	reg [7:0] mem [357199:0];
 /*		
 	initial begin
 		for (int i = 0; i < 4000; i = i + 1) begin
