@@ -62,8 +62,8 @@ module vga_pixel(input logic        clk,
         h <= (h1<<8) + h2;
         v <= (v1<<8) + v2;
         data_in <= background_r;
-        address_write <= v  + h * 480;
-	address_read <= vcount + hcount[10:1] * 480;
+        address_write <= v * 640 + h;
+	address_read <= vcount * 640 + hcount[10:1];
       	{VGA_R,VGA_G,VGA_B} <= {data_out, data_out, data_out};        
 	if (VGA_BLANK_n) begin
 	     #1000000;
