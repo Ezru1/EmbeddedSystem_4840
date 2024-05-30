@@ -50,9 +50,9 @@ module vga_pixel(input logic        clk,
 	
       end else if (chipselect && write)
       	case (address)
-	 3'h0 : background_r <= writedata;
-	 3'h1 : background_g <= writedata;
-	 3'h2 : background_b <= writedata;
+         3'h0 : background_r <= writedata;
+         3'h1 : background_g <= writedata;
+         3'h2 : background_b <= writedata;
          3'h3 : h1 <= writedata;
          3'h4 : h2 <= writedata;
          3'h5 : v1 <= writedata;
@@ -62,8 +62,8 @@ module vga_pixel(input logic        clk,
         h = (h1<<8) + h2;
         v = (v1<<8) + v2;
         data_in <= background_r;
-        address_write <= v * 640 + h;
-	address_read <= vcount * 640 + hcount[10:1];
+        address_write <= v  + h * 480;
+	address_read <= vcount  + hcount[10:1] * 480;
       	{VGA_R,VGA_G,VGA_B} <= {data_out, data_out, data_out};        
 	if (VGA_BLANK_n) begin
 	     #1000000;
