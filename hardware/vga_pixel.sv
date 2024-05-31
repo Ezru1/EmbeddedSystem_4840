@@ -63,7 +63,7 @@ module vga_pixel(input logic        clk,
       v <= (v1<<8) + v2;
       data_in <= #2 background_r;
       address_write <= #2 v * 640 + h;
-      if (hcount[10:1] >= 1 && hcount[10:1] < 480)
+      if (hcount[10:1] >= 1 && hcount[10:1] < 640)
          read_ena = 1;
       else 
          read_ena = 0;
@@ -178,6 +178,8 @@ module memory(
                 	mem[address_write] <= data_in;
        	 	if (read_ena)
                 	data_out <= mem[address_read];
+            else
+                  data_out <= 0;
  	end
 endmodule
 
