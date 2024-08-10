@@ -1,0 +1,16 @@
+Imported original files exist on shared google drive
+Sprite to systemverilog bitmap script by Rajat Tyagi
+Sprite art done by Riona Westphal
+
+mappting
+h000000 -> 0 //black/transparent
+hffddb6 -> 1 //light orange
+hff881f -> 2 //dark orange
+hffceb6 -> 3 //light pink
+hcc7a7a -> 4 //dark pink
+hb6efff -> 5 //light blue
+h5bc4de -> 6 //dark blue
+hdab6ff -> 7 //light purple
+h7d6ba8 -> 8 //dark purple
+hffb6b6 -> 9 //score pink
+hb6ffc3 -> a //letter green

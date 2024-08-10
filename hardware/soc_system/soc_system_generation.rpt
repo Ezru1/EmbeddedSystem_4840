@@ -1,0 +1,67 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/ycli/4840/hardware/soc_system.qsys --synthesis=VERILOG --output-directory=/home/ycli/4840/hardware/soc_system/synthesis --family="Cyclone V" --part=5CSEMA5F31C6
+Progress: Loading hardware/soc_system.qsys
+Progress: Reading input file
+Progress: Adding aud_0 [aud 1.0]
+Progress: Parameterizing module aud_0
+Progress: Adding bram_0 [bram 1.0]
+Progress: Parameterizing module bram_0
+Progress: Adding clk_0 [clock_source 23.1]
+Progress: Parameterizing module clk_0
+Progress: Adding hps_0 [altera_hps 23.1]
+Progress: Parameterizing module hps_0
+Progress: Adding vga_pixel_0 [vga_pixel 1.0]
+Progress: Parameterizing module vga_pixel_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 73
+Info: soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
+Warning: soc_system.aud_0: aud_0.hex1 must be exported, or connected to a matching conduit.
+Warning: soc_system.aud_0: aud_0.hex2 must be exported, or connected to a matching conduit.
+Warning: soc_system.aud_0: aud_0.hex3 must be exported, or connected to a matching conduit.
+Warning: soc_system.aud_0: aud_0.hex0 must be exported, or connected to a matching conduit.
+Warning: soc_system.aud_0: aud_0.hex4 must be exported, or connected to a matching conduit.
+Warning: soc_system.aud_0: aud_0.hex5 must be exported, or connected to a matching conduit.
+Info: soc_system: Generating soc_system "soc_system" for QUARTUS_SYNTH
+Warning: hps_0.f2h_irq0: Cannot connect clock for irq_mapper.sender
+Warning: hps_0.f2h_irq0: Cannot connect reset for irq_mapper.sender
+Warning: hps_0.f2h_irq1: Cannot connect clock for irq_mapper_001.sender
+Warning: hps_0.f2h_irq1: Cannot connect reset for irq_mapper_001.sender
+Info: aud_0: "soc_system" instantiated aud "aud_0"
+Info: bram_0: "soc_system" instantiated bram "bram_0"
+Info: hps_0: "Running  for module: hps_0"
+Info: hps_0: HPS Main PLL counter settings: n = 0  m = 73
+Info: hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
+Info: hps_0: "soc_system" instantiated altera_hps "hps_0"
+Info: vga_pixel_0: "soc_system" instantiated vga_pixel "vga_pixel_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: irq_mapper: "soc_system" instantiated altera_irq_mapper "irq_mapper"
+Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
+Info: fpga_interfaces: "hps_0" instantiated altera_interface_generator "fpga_interfaces"
+Info: hps_io: "hps_0" instantiated altera_hps_io "hps_io"
+Info: aud_0_avalon_slave_0_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "aud_0_avalon_slave_0_translator"
+Info: hps_0_h2f_lw_axi_master_agent: "mm_interconnect_0" instantiated altera_merlin_axi_master_ni "hps_0_h2f_lw_axi_master_agent"
+Info: aud_0_avalon_slave_0_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "aud_0_avalon_slave_0_agent"
+Info: aud_0_avalon_slave_0_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "aud_0_avalon_slave_0_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
+Info: hps_0_h2f_lw_axi_master_wr_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "hps_0_h2f_lw_axi_master_wr_limiter"
+Info: Reusing file /home/ycli/4840/hardware/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: aud_0_avalon_slave_0_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "aud_0_avalon_slave_0_burst_adapter"
+Info: Reusing file /home/ycli/4840/hardware/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/ycli/4840/hardware/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file /home/ycli/4840/hardware/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: border: "hps_io" instantiated altera_interface_generator "border"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: soc_system: Done "soc_system" with 25 modules, 83 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
