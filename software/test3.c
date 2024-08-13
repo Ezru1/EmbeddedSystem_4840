@@ -33,9 +33,11 @@
 #define PLOTHEIGHT      360
 #define PLOTWIDTH       600
 #define DOWNSCALE       3
+#define DOWNSCALE_AMP   130
 #define MXH		150
 #define XBIAS           30
-#define DELAY		20
+#define DELAY		300
+
 
 int vga_pixel_fd;
 int vga_zylo_fd;
@@ -158,7 +160,7 @@ int main()
 		//pause to let hardware catch up
 		int x;
 		printf("%d\n",amt.data);
-		x = amt.data/1700;
+		x = amt.data/DOWNSCALE_AMP;
 		if (x > MXH) x = MXH;
 		if (x < 0) {x = 0;printf("1\n");}
 		if (counter % 512 == 0)
@@ -171,14 +173,14 @@ int main()
 		   init_CUR(B);
 		   f(B,Frames);
 		   //clear_Sc(position, tmp);
-		   for (int j = PLOTWIDTH-1; j > -1; j--) {
+		   for (int j = PLOTWIDTH-4; j > -1; j -= 4) {
 		   	for (int i = PLOTHEIGHT-1 ; i > -1 ; i--) {
                    	//position.axis = PLOTHEIGHT-1-i;//y
 	                        position.axis = (j+XBIAS << 16) + PLOTHEIGHT-1-i; //x
 
-				//tmp.lum = 255;
-
-                                tmp.lum = B[j][i];
+				tmp.lum = 0;
+				for(int k = 0; k < 4; k++)
+                                    tmp.lum += B[j+k][i] << 8*k;
 				set_background_color(&tmp);
                                 set_pixel_axis(&position);
                         }

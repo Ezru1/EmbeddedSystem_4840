@@ -5,6 +5,10 @@
  * Stephen A. Edwards
  * Columbia University
  */
+#define N 4
+#define DELAY 0
+
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -97,19 +101,17 @@ int main()
   }
 
   pixel_values =  image_vga();
+  vga_pixel_color_t tmp;
   
-  for (int j = 1; j < 640; j++) {
-     for (int i = 0 ; i < 403 ; i++) {
-    	position.axis = (639-j << 16)  + i;
-	vga_pixel_color_t tmp;
-        tmp.lum = pixel_values[i][639-j];
+  for (int i = 0 ; i < 400 ; i++) {
+     for (int j = 0; j < (int)640/N; j++) {
+    	position.axis = (N*j << 16)  + i;
+	tmp.lum = 0;
+	for(int k = 0; k < N; k++)
+	    tmp.lum += pixel_values[i][N*j+k] << (8*k);
 	set_background_color(&tmp);
         set_pixel_axis(&position);
-         //if (i > 80 && i < 120){
-          // usleep(20000);
-          // printf("%d\n",i);
-         //}
-	usleep(80);
+//	usleep(10);
     }
   }
   printf("VGA PIXEL Userspace program terminating\n");
