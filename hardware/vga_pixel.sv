@@ -25,22 +25,23 @@ module vga_pixel(input logic        clk,
    logic [7:0] 	   background_r;
    logic [15:0]     h,v;
    logic 	   read_ena = 0, write_ena = 1;
-   logic [19:0]    address_read, address_write;
-   logic [7:0]    data_out;
+   logic [16:0]    address_read, address_write;
+   logic [31:0]    data_in;
+   logic [7:0] 	  data_out;
    logic [7:0]    vgalum;
-   logic [31:0]   data_in;
    logic [18:0]   temp_add;
-   logic [31:0]    lum;
+   logic [7:0]    lum[3:0];
+   logic [1:0]    bias;
 	
    vga_counters counters(.clk50(clk), .*);
    memory mem(.*);
    
-   hex7seg h5( .a(h[11:8]),.y(HEX5) ), // left digit
-            h4( .a(h[7:4]),.y(HEX4) ), 
-            h3( .a(h[3:0]),.y(HEX3) ), 
-            h2( .a(v[11:8]),.y(HEX2) ),
-            h1( .a(v[7:4]),.y(HEX1) ),
-            h0( .a(v[3:0]),.y(HEX0) );    
+   hex7seg h5( .a(bias),.y(HEX5) ), // left digit
+            h4( .a(lum[2][3:0]),.y(HEX4) ), 
+            h3( .a(lum[1][7:4]),.y(HEX3) ), 
+            h2( .a(lum[1][3:0]),.y(HEX2) ),
+            h1( .a(lum[0][7:4]),.y(HEX1) ),
+            h0( .a(lum[0][3:0]),.y(HEX0) );    
             
    always_ff @(posedge clk)begin	
       if (chipselect && write)
@@ -54,16 +55,24 @@ module vga_pixel(input logic        clk,
          	v <= writedata[15:0];
          end
         endcase
-        //address_write <= v * 640 + h;
-        address_write <= v * 640 + h;
+        address_write <= (v * 640 + h) >> 2;
         if (write_ena == 1) write_ena <= 0;
    end
+   reg [31:0] temp;
    
    always_ff @(posedge clk)begin
-	address_read <= vcount * 640 + hcount[10:1];
-	read_ena <= (vcount * 640 + hcount[10:1] < 256000 && hcount[10:1] > 0 && hcount[10:1] < 630) ? 1 : 0;
-	vgalum <= data_out;
-   	{VGA_R,VGA_G,VGA_B} <= {vgalum, vgalum, vgalum};  
+	address_read = (vcount * 640 + hcount[10:1]) >> 2;
+	bias = hcount[10:1] % 4;
+	read_ena = (vcount * 640 + hcount[10:1] < 256000 && hcount[10:1] > 0 && hcount[10:1] < 632) ? 1 : 0;
+	//temp <= data_out;
+	/*
+	for(int i = 0; i < 4; i++)
+	    for(int j = 0; j < 8; j++)
+	    	lum[i][j] <= temp[(i << 3) + j];
+	    	*/
+	    
+        //{VGA_R,VGA_G,VGA_B} <= {temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0],temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0],temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0]};	
+	{VGA_R,VGA_G,VGA_B} <= {data_out, data_out, data_out};  
    end
 	       
 endmodule
@@ -148,8 +157,6 @@ endmodule
 
 module hex7seg(input logic  [3:0] a,
                output logic [6:0] y);
-
-   /* Replace this comment and the code below it with your solution */
     always_comb
         case (a)        //      gfe_dcba
             4'h0:        y = 7'b100_0000;
@@ -175,24 +182,27 @@ endmodule
 
 module memory(
 	input logic clk, reset,
- 	input logic [19:0] address_read, address_write,
+ 	input logic [16:0] address_read, address_write,
  	input logic [31:0] data_in,
+ 	input logic [1:0] bias,
  	output logic [7:0] data_out,
  	input logic read_ena, write_ena);
 
- 	reg [7:0] mem [257199:0];
+ 	reg [31:0] mem [65535:0];
+ 	reg [31:0] A;
  	
  	always_ff@(posedge clk) begin
         	if (write_ena) begin
-                	//mem[(address_write << 2) + 3] <= data_in[15:12];
-                	//mem[(address_write << 2) + 2] <= data_in[11:8];
-                	//mem[(address_write << 2) + 1] <= data_in;
-                	mem[(address_write << 0) + 0] <= data_in;
+                	mem[address_write] = data_in;
                 end
-       	 	if (read_ena)
-                	data_out <= mem[address_read];
-            else
+       	 	if (read_ena) begin
+       	 		A = mem[address_read];
+                	data_out <= {A[(bias<<3)+7],A[(bias<<3)+6],A[(bias<<3)+5],A[(bias<<3)+4],A[(bias<<3)+3],A[(bias<<3)+2],A[(bias<<3)+1],A[(bias<<3)]};
+               	end else
                   data_out <= 0;
- 	end
+                
+                
+ 	end	
+ 	
 endmodule
 

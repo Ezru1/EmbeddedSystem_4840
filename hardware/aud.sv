@@ -49,23 +49,14 @@ module audio_control(
         output logic [23:0]       bram_data_in,
         input logic [23:0]        bram_data_out
 
-/*
-        //goertzel control
-        output logic [23:0]       adc_out_buffer,
-        output logic              advance,
-        
-        //detector return
-        input logic [2:0]         result,
-        input logic [2:0]         overall_result,
-        input logic               flag
-*/
         );
 
     //Audio Controller
     reg [23:0]      dac_left_in;
     reg [23:0]      dac_right_in;
-    wire [23:0]     adc_left_out;
-    wire [23:0]     adc_right_out;
+    logic [23:0]     adc_left_out;
+    logic [23:0]     adc_right_out;
+    
     reg [20:0]      sqr;
     // wire advance;
     
@@ -90,12 +81,6 @@ module audio_control(
 
     //Instantiate hex decoders
     logic [23:0]    hexout_buffer;
-    /*hex7seg h5( .a(wa[15:12]),.y(HEX5) ), // left digit
-            h4( .a(wa[11:8]),.y(HEX4) ), 
-            h3( .a(wa[7:4]),.y(HEX3) ), 
-            h2( .a(ra[11:8]),.y(HEX2) ),
-            h1( .a(ra[7:4]),.y(HEX1) ),
-            h0( .a(ra[3:0]),.y(HEX0) );    */
   
     
     reg [15:0] ra = 0,wa = 0;
@@ -115,7 +100,7 @@ module audio_control(
     );
 
     //Convert stereo input to mono        
-    logic [23:0]    audioInMono;
+    logic [23:0]     adc_mono;
     logic  [23:0]    buffer;
     logic [25:0]     CC = 26'b0;
     
@@ -126,7 +111,7 @@ module audio_control(
     logic           write_clk;
     logic 	    left_fft_ce;	
     logic 	    left_fft_o_sync;
-    logic [41:0]    left_fft_o_result;
+    logic [41:0]    o_result;
     logic[15:0]     inp;
 
     reg [23:0]      Ctst = 0;
@@ -140,10 +125,22 @@ module audio_control(
 		.i_clk(clk_2),
 		.i_reset(reset),
 		.i_ce(left_fft_ce),
-		.i_sample({adc_right_out[23:8], 16'b0}),
-		.o_result(left_fft_o_result),
+		.i_sample({adc_mono[23:8], 16'b0}),
+		.o_result(o_result),
 		.o_sync(left_fft_o_sync));  
-
+    function [23:0] A;
+	      	input [23:0] num;  //declare input
+	      
+		//intermediate signals.
+	      	reg [23:0] absn;
+		    	begin
+		      	if (num[23] == 0)
+			  absn = {1'b0,num[23:1]};
+			else
+			  absn = {1'b1,num[23:1]};
+			A = absn;
+		end
+    endfunction //end of Function
     function [20:0] sqrt;
       	input [20:0] num1;  //declare input
       	input [20:0] num2;
@@ -192,9 +189,9 @@ module audio_control(
     endfunction //end of Function
 
     always_comb begin
-	sqr = sqrt(left_fft_o_result[20:0],left_fft_o_result[41:21]);
+	sqr = sqrt(o_result[20:0],o_result[41:21]);
         buffer = rd;
-        //buffer = (adc_right_out[23] == 1)  ? 0 : adc_right_out;
+        //buffer = A(adc_mono);
     end
 
     //Determine when the driver is in the middle of pulling a sample
@@ -205,6 +202,8 @@ module audio_control(
     logic [15:0]    limit;
 
     always_ff @(posedge clk) begin
+    	adc_mono <= A(adc_right_out + adc_left_out);
+	//adc_mono <= adc_left_out;
 	CC += 1;
     end
    
@@ -214,6 +213,7 @@ module audio_control(
 
     always_ff @(posedge clk) begin : IOcalls
         // ioread recieved
+        //adc_mono <= adc_left_out;
         if (chipselect && read) begin
             case (address)
                 16'h0002 : begin
