@@ -36,7 +36,8 @@
 #define DRIVER_NAME "aud"
 
 /* Device registers */
-#define AUD_AMP(x) ((x) + 8)       //5 0
+#define ANGLE(x) ((x)+8)
+#define AUD_AMP(x) ((x) + 12)       //5 0
 
 /*
  * Information about our device
@@ -56,6 +57,11 @@ static void read_memory(aud_mem_t *memory)
 {
 	memory->data = ioread32(AUD_AMP(dev.virtbase));
 }
+
+static void read_angle(aud_mem_t *memory)
+{
+	memory->data = ioread32(ANGLE(dev.virtbase));
+}
 /*
  * Handle ioctl() calls from userspace:
  * Read or write the segments on single digits.
@@ -70,6 +76,13 @@ static long aud_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 			if (copy_to_user((aud_arg_t *) arg, &vla, sizeof(aud_arg_t)))
 				return -EACCES;
 			break;	
+
+  		case ANGLE_READ_DATA:
+                        read_angle(&vla.memory);
+                        if (copy_to_user((aud_arg_t *) arg, &vla, sizeof(aud_arg_t)))
+                                return -EACCES;
+                        break;
+
 	        default:
 			return -EINVAL;
 	}

@@ -1,3 +1,3 @@
-/root/Z/vga_pixel.ko
-/root/Z/vga_pixel.o
+/root/EmbeddedSystem_4840/software/vga_pixel.ko
+/root/EmbeddedSystem_4840/software/vga_pixel.o
 

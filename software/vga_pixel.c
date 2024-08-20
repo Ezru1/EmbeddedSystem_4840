@@ -37,8 +37,7 @@
 /* Device registers */
 #define BG_LUM(x) ((x)+0)
 //register for x and y
-#define AXIS(x) ((x)+4)
-
+define AXIS(x) ((x)+4)
 
 /*
  * Information about our device
@@ -47,9 +46,8 @@ struct vga_pixel_dev {
 	struct resource res; /* Resource: our registers */
 	void __iomem *virtbase; /* Where registers can be accessed in memory */
         vga_pixel_color_t background;
-        vga_pixel_axis_t position;
+        vga_pixel_axis_t position;	
 } dev;
-
 /*
  * Write segments of a single digit
  * Assumes digit is in range and the device information has been set up
