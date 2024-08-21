@@ -15,6 +15,29 @@
 
 // 7-Seg dispaly for debugging
 
+module hex7seg(input logic  [3:0] a,
+               output logic [6:0] y);
+    always_comb
+        case (a)        //      gfe_dcba
+            4'h0:        y = 7'b100_0000;
+            4'h1:        y = 7'b111_1001;
+            4'h2:        y = 7'b010_0100;
+            4'h3:        y = 7'b011_0000;
+            4'h4:        y = 7'b001_1001;
+            4'h5:        y = 7'b001_0010;
+            4'h6:        y = 7'b000_0010;
+            4'h7:        y = 7'b111_1000;
+            4'h8:        y = 7'b000_0000;
+            4'h9:        y = 7'b001_0000;
+            4'hA:        y = 7'b000_1000;
+            4'hB:        y = 7'b000_0011;
+            4'hC:        y = 7'b100_0110;
+            4'hD:        y = 7'b010_0001;
+            4'hE:        y = 7'b000_0110;
+            4'hF:        y = 7'b000_1110;
+            default:     y = 7'b111_1111;
+        endcase
+endmodule
 
 module audio_control( 
         input logic [3:0]         KEY, // Pushbuttons; KEY[0] is rightmost
@@ -42,6 +65,7 @@ module audio_control(
         input logic [15:0]        address,
         output logic [31:0]       readdata,     
 
+	output logic [6:0]        HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, 
         //Bram controls
         output logic [15:0]       bram_wa,
         output logic [15:0]       bram_ra,
@@ -98,12 +122,49 @@ module audio_control(
 	 .data_in(wd),
 	 .data_out(rd)
     );
-
+    
+    hex7seg h5( .a(angle[5:4]),.y(HEX5) ), // left digit
+            h4( .a(angle[3:0]),.y(HEX4) ), 
+            h3( .a(0),.y(HEX3) ), 
+            h2( .a(0),.y(HEX2) ),
+            h1( .a(0),.y(HEX1) ),
+            h0( .a(0),.y(HEX0) );   
+            
+        	
+	
     //Convert stereo input to mono        
     logic [23:0]     adc_mono;
     logic  [23:0]    buffer;
     logic [25:0]     CC = 26'b0;
-    
+    logic [31:0]     CC2 = 32'b1;
+    logic [5:0]      angle = 6'd45;
+    //debounce
+    always_ff @(posedge clk)begin
+   	logic ena0 = 1,ena1 = 1;
+   	logic [31:0] presstime0,presstime1;
+	CC2 <= CC2 + 1;
+	if (CC2 == 32'hffffffff) CC2 <= 1;
+   	if (KEY[0] == 0 && ena0 == 1) begin
+   	    presstime0 <= CC2;
+   	    if (angle < 6'd60) angle <= angle + 1;
+   	end
+   	if (CC2 < presstime0 + 1 || KEY[0] == 0) begin
+   	    ena0 <= 0;
+   	end else begin 
+   	    ena0 <= 1;
+   	    presstime0 <= 0;
+   	end
+   	if (KEY[1] == 0 && ena1 == 1) begin
+   	    presstime1 <= CC2;
+   	    if (angle > 6'd30) angle <= angle - 1;
+   	end
+   	if (CC2 < presstime1 + 1 || KEY[1] == 0) begin
+   	    ena1 <= 0;
+   	end else begin 
+   	    ena1 <= 1;
+   	    presstime1 <= 0;
+   	end
+    end
     
     logic [3:0]     bram_input_ctrl;
     logic [23:0]    result_buffer;
@@ -216,7 +277,11 @@ module audio_control(
         //adc_mono <= adc_left_out;
         if (chipselect && read) begin
             case (address)
-                16'h0002 : begin
+                16'h0002: begin
+                    readdata[31:6] <= 0;
+                    readdata[5:0] <= angle;
+                end
+                16'h0003 : begin
 		    rena <= 1;
 		    wena <= 1;
 		    ra <= ra + 1;

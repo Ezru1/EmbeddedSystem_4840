@@ -14,7 +14,7 @@ module vga_pixel(input logic        clk,
 		input 		   chipselect,
 		input logic [7:0]  address,
 		
-		output logic [6:0]        HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, 
+		
 		output logic [7:0] VGA_R, VGA_G, VGA_B,
 		output logic 	   VGA_CLK, VGA_HS, VGA_VS,
 		                   VGA_BLANK_n,
@@ -34,14 +34,10 @@ module vga_pixel(input logic        clk,
    logic [1:0]    bias;
 	
    vga_counters counters(.clk50(clk), .*);
+   
+   
    memory mem(.*);
    
-   hex7seg h5( .a(bias),.y(HEX5) ), // left digit
-            h4( .a(lum[2][3:0]),.y(HEX4) ), 
-            h3( .a(lum[1][7:4]),.y(HEX3) ), 
-            h2( .a(lum[1][3:0]),.y(HEX2) ),
-            h1( .a(lum[0][7:4]),.y(HEX1) ),
-            h0( .a(lum[0][3:0]),.y(HEX0) );    
             
    always_ff @(posedge clk)begin	
       if (chipselect && write)
@@ -64,14 +60,6 @@ module vga_pixel(input logic        clk,
 	address_read = (vcount * 640 + hcount[10:1]) >> 2;
 	bias = hcount[10:1] % 4;
 	read_ena = (vcount * 640 + hcount[10:1] < 256000 && hcount[10:1] > 0 && hcount[10:1] < 632) ? 1 : 0;
-	//temp <= data_out;
-	/*
-	for(int i = 0; i < 4; i++)
-	    for(int j = 0; j < 8; j++)
-	    	lum[i][j] <= temp[(i << 3) + j];
-	    	*/
-	    
-        //{VGA_R,VGA_G,VGA_B} <= {temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0],temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0],temp[bias*8+7],temp[bias*8+6],temp[bias*8+5],temp[bias*8+4],temp[bias*8+3],temp[bias*8+2],temp[bias*8+1],temp[bias*8+0]};	
 	{VGA_R,VGA_G,VGA_B} <= {data_out, data_out, data_out};  
    end
 	       
@@ -155,29 +143,6 @@ module vga_counters(
    
 endmodule
 
-module hex7seg(input logic  [3:0] a,
-               output logic [6:0] y);
-    always_comb
-        case (a)        //      gfe_dcba
-            4'h0:        y = 7'b100_0000;
-            4'h1:        y = 7'b111_1001;
-            4'h2:        y = 7'b010_0100;
-            4'h3:        y = 7'b011_0000;
-            4'h4:        y = 7'b001_1001;
-            4'h5:        y = 7'b001_0010;
-            4'h6:        y = 7'b000_0010;
-            4'h7:        y = 7'b111_1000;
-            4'h8:        y = 7'b000_0000;
-            4'h9:        y = 7'b001_0000;
-            4'hA:        y = 7'b000_1000;
-            4'hB:        y = 7'b000_0011;
-            4'hC:        y = 7'b100_0110;
-            4'hD:        y = 7'b010_0001;
-            4'hE:        y = 7'b000_0110;
-            4'hF:        y = 7'b000_1110;
-            default:     y = 7'b111_1111;
-        endcase
-endmodule
 
 
 module memory(
