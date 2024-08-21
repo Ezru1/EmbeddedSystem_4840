@@ -30,5 +30,6 @@ typedef struct {
 #define AUD_MAGIC 'q'
 
 /* ioctls and their arguments */
+#define ANGLE_READ_DATA       _IOR(AUD_MAGIC, 0, aud_arg_t *)
 #define AUD_READ_DATA  	    _IOR(AUD_MAGIC, 1, aud_arg_t *)
 #endif

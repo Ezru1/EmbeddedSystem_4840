@@ -1,8 +1,8 @@
-cmd_/root/Z/vga_pixel.o := gcc -Wp,-MD,/root/Z/.vga_pixel.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/5/include -I./arch/arm/include -I./arch/arm/include/generated  -I./include -I./arch/arm/include/uapi -I./arch/arm/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-PIE -DCC_HAVE_ASM_GOTO -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -fno-ipa-sra -mabi=aapcs-linux -mfpu=vfp -funwind-tables -marm -Wa,-mno-warn-deprecated -D__LINUX_ARM_ARCH__=7 -march=armv7-a -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector-strong -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init  -DMODULE  -DKBUILD_BASENAME='"vga_pixel"' -DKBUILD_MODNAME='"vga_pixel"' -c -o /root/Z/vga_pixel.o /root/Z/vga_pixel.c
+cmd_/root/EmbeddedSystem_4840/software/vga_pixel.o := gcc -Wp,-MD,/root/EmbeddedSystem_4840/software/.vga_pixel.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/5/include -I./arch/arm/include -I./arch/arm/include/generated  -I./include -I./arch/arm/include/uapi -I./arch/arm/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-PIE -DCC_HAVE_ASM_GOTO -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -fno-ipa-sra -mabi=aapcs-linux -mfpu=vfp -funwind-tables -marm -Wa,-mno-warn-deprecated -D__LINUX_ARM_ARCH__=7 -march=armv7-a -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector-strong -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init  -DMODULE  -DKBUILD_BASENAME='"vga_pixel"' -DKBUILD_MODNAME='"vga_pixel"' -c -o /root/EmbeddedSystem_4840/software/vga_pixel.o /root/EmbeddedSystem_4840/software/vga_pixel.c
 
-source_/root/Z/vga_pixel.o := /root/Z/vga_pixel.c
+source_/root/EmbeddedSystem_4840/software/vga_pixel.o := /root/EmbeddedSystem_4840/software/vga_pixel.c
 
-deps_/root/Z/vga_pixel.o := \
+deps_/root/EmbeddedSystem_4840/software/vga_pixel.o := \
     $(wildcard include/config/of.h) \
   include/linux/kconfig.h \
     $(wildcard include/config/cpu/big/endian.h) \
@@ -742,8 +742,8 @@ deps_/root/Z/vga_pixel.o := \
     $(wildcard include/config/cpu/cp15/mmu.h) \
   arch/arm/include/generated/asm/extable.h \
   include/asm-generic/extable.h \
-  /root/Z/vga_pixel.h \
+  /root/EmbeddedSystem_4840/software/vga_pixel.h \
 
-/root/Z/vga_pixel.o: $(deps_/root/Z/vga_pixel.o)
+/root/EmbeddedSystem_4840/software/vga_pixel.o: $(deps_/root/EmbeddedSystem_4840/software/vga_pixel.o)
 
-$(deps_/root/Z/vga_pixel.o):
+$(deps_/root/EmbeddedSystem_4840/software/vga_pixel.o):

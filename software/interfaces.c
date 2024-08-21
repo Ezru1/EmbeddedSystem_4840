@@ -19,3 +19,13 @@ int get_aud_data(const int aud_fd) {
 	return aat.memory.data;
 }
 
+int get_angle_data(const int aud_fd) {
+        aud_arg_t aat;
+        if (ioctl(aud_fd, ANGLE_READ_DATA, &aat)) {
+                perror("ioctl(ANGLE_READ_DATA) failed");
+                return 0;
+        }
+        return aat.memory.data;
+}
+
+

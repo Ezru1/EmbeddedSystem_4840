@@ -33,9 +33,11 @@
 #define PLOTHEIGHT      360
 #define PLOTWIDTH       600
 #define DOWNSCALE       3
+#define DOWNSCALE_AMP   130
 #define MXH		150
-#define XBIAS           30
-#define DELAY		20
+#define XBIAS           50
+#define DELAY		300
+
 
 int vga_pixel_fd;
 int vga_zylo_fd;
@@ -62,8 +64,8 @@ void set_background_color(vga_pixel_color_t *c)
 }
 
 
-void f(int** CUR, int** Frames){
-    double rad = ANGLE * (M_PI / 180.0);
+void f(int** CUR, int** Frames, int ang){
+    double rad = ang * (M_PI / 180.0);
     for(int i = 0; i < FRAMENUMBERS; i++){
         for(int j = 511;j > -1; j--){
             if (Frames[i][j] == 0) continue;
@@ -111,7 +113,7 @@ int main()
     
 
 	aud_arg_t aat;
-	aud_mem_t amt;
+	aud_mem_t amt,ang;
 	vga_pixel_axis_t position;
 	vga_pixel_arg_t vla;
 	vga_pixel_color_t tmp;
@@ -155,12 +157,13 @@ int main()
 	int* N;
 	while (counter < MAX_NOTE_COUNT + 5) {
         	amt.data = get_aud_data(aud_fd);
+		ang.data = get_angle_data(aud_fd);
 		//pause to let hardware catch up
 		int x;
-		printf("%d\n",amt.data);
-		x = amt.data/1700;
+		printf("%d\n",ang.data);
+		x = amt.data/DOWNSCALE_AMP;
 		if (x > MXH) x = MXH;
-		if (x < 0) {x = 0;printf("1\n");}
+		if (x < 0) x = 0;
 		if (counter % 512 == 0)
 		   N = (int*)malloc(512 * sizeof(int));
 		N[counter % 512] = x;
@@ -169,16 +172,16 @@ int main()
 			Frames[i] = Frames[i+1];
 		   Frames[FRAMENUMBERS-1] = N;
 		   init_CUR(B);
-		   f(B,Frames);
+		   f(B,Frames,ang.data);
 		   //clear_Sc(position, tmp);
-		   for (int j = PLOTWIDTH-1; j > -1; j--) {
+		   for (int j = PLOTWIDTH-4; j > -1; j -= 4) {
 		   	for (int i = PLOTHEIGHT-1 ; i > -1 ; i--) {
                    	//position.axis = PLOTHEIGHT-1-i;//y
 	                        position.axis = (j+XBIAS << 16) + PLOTHEIGHT-1-i; //x
 
-				//tmp.lum = 255;
-
-                                tmp.lum = B[j][i];
+				tmp.lum = 0;
+				for(int k = 0; k < 4; k++)
+                                    tmp.lum += B[j+k][i] << 8*k;
 				set_background_color(&tmp);
                                 set_pixel_axis(&position);
                         }

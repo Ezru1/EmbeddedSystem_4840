@@ -1,2 +1,2 @@
-kernel//root/Z/vga_pixel.ko
-kernel//root/Z/aud.ko
+kernel//root/EmbeddedSystem_4840/software/vga_pixel.ko
+kernel//root/EmbeddedSystem_4840/software/aud.ko
